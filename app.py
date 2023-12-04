@@ -37,5 +37,20 @@ def get_tweet_by_id(tweet_id):
         return jsonify({'error': str(e)}), 400
 
 
+
+@app.route('/tweets', methods=['POST'])
+def create_tweet():
+    try:
+        new_tweet = request.get_json()
+
+        if 'id' not in new_tweet or 'text' not in new_tweet:
+            raise ValueError("Invalid tweet format. 'id' and 'text' are required.")
+
+        tweets_data.append(new_tweet)
+        return jsonify(new_tweet), 201  
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 
+
+
 if __name__ == '__main__':
     app.run(debug=True)
